@@ -5,7 +5,7 @@ Este es el proyecto final del _Bootcamp de Full Stack Developer_ dado por _Geeks
 La aplicación es un portal para artistas 2D/3D que ha sido creada en PHP Laravel (backend) y React (frontend).
 
 **Backend**: https://github.com/pagesMp/3Dstation \
-**Frontend**: https://master.d9awibrwfintr.amplifyapp.com
+**Frontend**: https://master.d2jy6gtrg5sl3m.amplifyapp.com
 
 # Registro
 
