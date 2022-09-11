@@ -82,9 +82,9 @@ export default class HeaderView extends Component {
                                     user ?
                                         <div className="book-see" style={{ marginTop: "0", height: "1.2em", width: "7em" }}><a href="/logout">Cerrar sesión</a></div>
                                         :
-                                        <div>
+                                        <div style={{ display: "inline-flex" }}>
                                             <div className="book-see" style={{ marginTop: "0", height: "1.2em", width: "7em" }}><a href="/login">Iniciar sesión</a></div>
-                                            <div className="book-see" style={{ marginTop: "0", height: "1.2em", width: "7em" }}><a href="/login">Registrar</a></div>
+                                            <div className="book-see" style={{ marginTop: "0", height: "1.2em", width: "7em", marginRight: "0.5em" }}><a href="/register">Registrar</a></div>
                                         </div>
                                 }
                             </div>
