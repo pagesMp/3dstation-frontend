@@ -4,6 +4,7 @@ import ArtistNameView from '../../All/ArtistName/ArtistName';
 
 
 export default class TaggedProjectsView extends Component {
+  //inicializamos las propiedades del componente
   constructor(props) {
     super(props);
     this.state = {
@@ -12,11 +13,14 @@ export default class TaggedProjectsView extends Component {
   }
 
   render() {
-
-    const userCache = localStorage.getItem('user')
+    //obtenemos la cache del local storage
+    const userCache = localStorage.getItem('user');
+    //si existe la cache, la parseamos y cogemos el usuario, si no lo ponemos en undefined
     const user = userCache ? JSON.parse(userCache).user : undefined;
+    //si existe la cache, la parseamos y cogemos el token, si no lo ponemos en undefined
     const token = userCache ? JSON.parse(userCache).token : undefined;
 
+    //añadimos un like a un proyecto por id
     const addLike = async (projectId) => {
       try {
         await axios.post("https://dimension3-backend.herokuapp.com/api/project/" + projectId + "/likes/add", {} ,{
@@ -33,18 +37,22 @@ export default class TaggedProjectsView extends Component {
       }
     }
 
+    //obtenemos los 10 primeros proyectos
     const getPublicProjects = async () => {
       const projects = await axios.get("https://dimension3-backend.herokuapp.com/api/public/projects/get/10");
       return projects;
     }
 
+    //creamos el elemento en html a partir de la llamada a la api
     const renderProjectCards = () => {
       let projectCards = [];
+      //si se han devuelto proyectos
       if (this.state.projects) {
-
-        for (let i = 1; i <= this.state.projects.length; i++) {
+        //creamos un elemento por proyecto
+        for (let i = 0; i <= this.state.projects.length; i++) {
           let project = this.state.projects[i];
-
+          
+          //si el proyecto no esta vacio
           if (project) {
 
             projectCards.push(
@@ -65,6 +73,7 @@ export default class TaggedProjectsView extends Component {
                     </ArtistNameView>
                     <div className="rate">
                       {
+                        //si el usuario esta loggeado mostramos el boton de megusta
                         user ?
                           <a className="rating book-rate" onClick={() => addLike(project.id)}>Me gusta ❤</a>
                           :
@@ -94,15 +103,14 @@ export default class TaggedProjectsView extends Component {
         }
 
       }
-
+      
+      //si no hay proyectos los pedimos por api
       else {
         const getProjects = getPublicProjects();
         getProjects.then(result => {
           this.setState({ projects: result.data.data });
         })
       }
-
-
 
       return projectCards;
     };

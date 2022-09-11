@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from 'axios';
 
 export default class PopularProjectsView extends Component {
+
+  //inicializamos las propiedades del componente
   constructor(props) {
     super(props);
     this.state = {
@@ -11,14 +13,18 @@ export default class PopularProjectsView extends Component {
 
   render() {
 
+    //cogemos los 5 primeros proyectos
     const getPublicProjects = async () => {
       const projects = await axios.get("https://dimension3-backend.herokuapp.com/api/public/projects/get/5");
       return projects;
     }
-
+    
+    //creamos el elemento en html a partir de la llamada a la api
     const renderProjectsView = () => {
       let projectView = [];
+      //si se han devuelto proyectos
       if (this.state.projects) {
+        //creamos un elemento por proyecto
         for (const [key, value] of Object.entries(this.state.projects.data)) {
           let project = this.state.projects.data[key]
           projectView.push(
@@ -38,6 +44,7 @@ export default class PopularProjectsView extends Component {
         }
       }
 
+      //si no hay proyectos los pido por la api
       else {
         const getProjects = getPublicProjects();
         getProjects.then(result => {

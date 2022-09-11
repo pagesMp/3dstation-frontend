@@ -6,6 +6,7 @@ import axios from 'axios';
 import ArtistNameView from '../../All/ArtistName/ArtistName';
 
 export default class StarredProjectsSlider extends Component {
+  //inicializamos las propiedades del componente
   constructor(props) {
     super(props);
     this.state = {
@@ -15,10 +16,14 @@ export default class StarredProjectsSlider extends Component {
 
   render() {
 
+    //obtenemos la cache del localstorage
     const userCache = localStorage.getItem('user')
+    //si existe la cache, la parseamos y cogemos el usuario, si no lo ponemos en undefined
     const user = userCache ? JSON.parse(userCache).user : undefined;
+    //si existe la cache, la parseamos y cogemos el token, si no lo ponemos en undefined
     const token = userCache ? JSON.parse(userCache).token : undefined;
 
+    //añadimos un like a un proyecto por id
     const addLike = async (projectId) => {
       try {
         await axios.post("https://dimension3-backend.herokuapp.com/api/project/" + projectId + "/likes/add", {} ,{
@@ -34,15 +39,19 @@ export default class StarredProjectsSlider extends Component {
         return false;
       }
     }
-
+    
+    //cogemos los 10 primeros proyectos
     const getPublicProjects = async () => {
       const projects = await axios.get("https://dimension3-backend.herokuapp.com/api/public/projects/get/10");
       return projects;
     }
 
+    //creamos el elemento en html a partir de la llamada a la api
     const renderProjectsView = () => {
       let projectView = [];
+      //si se han devuelto proyectos
       if (this.state.projects) {
+        //creamos un elemento por proyecto
         for (const [key, value] of Object.entries(this.state.projects.data)) {
           let project = this.state.projects.data[key]
           projectView.push(
@@ -62,6 +71,7 @@ export default class StarredProjectsSlider extends Component {
                 </ArtistNameView>
                 <div className="rate">
                   {
+                    //si el usuario esta logeado mostramos el boton de me gusta
                     user ?
                       <a className="rating book-rate" onClick={() => addLike(project.id)}>Me gusta ❤</a>
                       :
@@ -81,7 +91,7 @@ export default class StarredProjectsSlider extends Component {
           );
         }
       }
-
+      //si no hay proyectos los pedimos a la api
       else {
         const getProjects = getPublicProjects();
         getProjects.then(result => {
@@ -92,6 +102,7 @@ export default class StarredProjectsSlider extends Component {
       return projectView;
     };
 
+    //configuración del carousel
     const sliderSettings = {
       infinite: true,
       swipeToSlide: true,

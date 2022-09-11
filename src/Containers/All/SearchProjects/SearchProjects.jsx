@@ -4,6 +4,8 @@ import ArtistNameView from '../../All/ArtistName/ArtistName';
 
 
 export default class SearchProjectsView extends Component {
+
+  //inicializamos las propiedades del componente
   constructor(props) {
     super(props);
     this.state = {
@@ -13,10 +15,14 @@ export default class SearchProjectsView extends Component {
 
   render() {
 
+    //obtenemos la cache del local storage
     const userCache = localStorage.getItem('user')
+    //si existe la cache, la parseamos y cogemos el usuario, si no lo ponemos en undefined
     const user = userCache ? JSON.parse(userCache).user : undefined;
+    //si existe la cache, la parseamos y cogemos el token, si no lo ponemos en undefined
     const token = userCache ? JSON.parse(userCache).token : undefined;
 
+    //añadimos un like a un proyecto por id
     const addLike = async (projectId) => {
       try {
         await axios.post("https://dimension3-backend.herokuapp.com/api/project/" + projectId + "/likes/add", {}, {
@@ -33,6 +39,7 @@ export default class SearchProjectsView extends Component {
       }
     }
 
+    //buscamos proyectos por titulo
     const getProjectsByName = async (query) => {
       try {
         const projects = await axios.get("https://dimension3-backend.herokuapp.com/api/public/projects/search/" + query);
@@ -43,16 +50,22 @@ export default class SearchProjectsView extends Component {
       }
     }
 
+    //inicializamos las propiedades del componente que le pasamos al crearlo
+    //query es igual al valor de la busqueda
     const settings = {
       query: this.props.query
     };
 
+    //creamos el elemento en html a partir de la llamada a la api
     const renderProjectCards = () => {
       let projectCards = [];
+      //si se han devuelto proyectos
       if (this.state.projects) {
+        //creamos un elemento por proyecto
         for (let i = 0; i <= this.state.projects.length; i++) {
           let project = this.state.projects[i];
 
+          //si el proyecto no esta vacio
           if (project) {
 
             projectCards.push(
@@ -73,6 +86,7 @@ export default class SearchProjectsView extends Component {
                     </ArtistNameView>
                     <div className="rate">
                       {
+                        //si el user esta loggeado mostramos el boton de me gusta
                         user ?
                           <a className="rating book-rate" onClick={() => addLike(project.id)}>Me gusta ❤</a>
                           :
@@ -103,6 +117,7 @@ export default class SearchProjectsView extends Component {
 
       }
 
+      //si no se han encontrado proyectos, mostramos un mensaje de error
       else if (this.state.projects === false) {
         projectCards.push(
           <div key={settings.projectId}>
@@ -111,20 +126,20 @@ export default class SearchProjectsView extends Component {
         );
       }
 
+      //si no se han obtenido proyectos hacemos la llamada a la api
       else {
         const getProjects = getProjectsByName(settings.query);
         getProjects.then(result => {
+          //si hay proyectos los asignamos
           if (result.data.data.length > 0) {
             this.setState({ projects: result.data.data });
           }
+          //si no hay proyectos le asignamos un false
           else {
             this.setState({ projects: false });
           }
         })
       }
-
-
-
       return projectCards;
     };
 
