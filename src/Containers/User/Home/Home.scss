@@ -1,0 +1,735 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;700&family=PT+Sans:wght@400;700&family=Raleway:wght@300;400;700&display=swap');
+
+:root {
+  --body-bg-color: #fff;
+  --header-font: "Inter", sans-serif;
+  --body-font: "Raleway", sans-serif;
+  --other-font: "PT Sans", sans-serif;
+  --body-color: #3d4954;
+  --body-color-light: #8b939c;
+  --border-color: #b8bec3;
+  --actionable-color: #f86d72;
+  --placeholder: #ccd0d2;
+}
+
+*:focus {
+  outline: none;
+}
+
+a {
+  text-decoration: underline;
+  color: var(--actionable-color);
+}
+
+img {
+  max-width: 100%;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  height: fit-content;
+}
+
+body {
+  background-image: none;
+  background-color: var(--body-bg-color);
+  font-family: var(--body-font);
+  color: var(--body-color);
+  font-weight: 400;
+  margin: 0;
+}
+
+html,
+body,
+div#root,
+div#root>div {
+  height: 100%
+}
+
+%display {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+.book-store {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--body-bg-color);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.header {
+  @extend %display;
+  position: sticky;
+  height: 70px;
+  background-color: var(--body-bg-color);
+  padding: 0 30px;
+  font-family: var(--header-font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--body-color-light);
+  justify-content: space-between;
+  flex-shrink: 0;
+  user-select: none;
+  text-align: center;
+}
+
+.search-bar {
+  position: relative;
+  input {
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    padding: 0 10px 0 40px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='%238b939c' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'%3e%3ccircle cx='11' cy='11' r='8'/%3e%3cpath d='M21 21l-4.35-4.35'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-position: 15px 50%;
+    color: var(--body-color);
+    font-family: var(--body-font);
+    &::placeholder {
+      color: var(--placeholder);
+    }
+  }
+}
+
+.browse {
+  @extend %display;
+
+  &-category {
+    @extend %display;
+    border-right: 1px solid var(--border-color);
+    white-space: nowrap;
+
+    svg {
+      width: 16px;
+      margin: 2px 10px 0 8px;
+    }
+  }
+}
+
+.header-title {
+  font-family: var(--other-font);
+  font-size: 28px;
+  font-weight: 400;
+
+  span {
+    font-weight: 500;
+    color: var(--body-color);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+}
+
+.user-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.user-profile {
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.user-name {
+  vertical-align: super;
+  margin-right: 1em;
+}
+
+.profile {
+  @extend %display;
+  flex-shrink: 0;
+}
+
+.slick-slider {
+  width: 100%;
+}
+
+.starred-project {
+  background-color: var(--body-bg-color);
+  position: relative;
+  display: flex !important;
+  padding: 24px;
+  cursor: grab;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 2.6em;
+}
+
+.book-photo {
+  width: 180px;
+  flex-shrink: 0;
+  bottom: -35px;
+  left: 35px;
+  transition: .3s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.book-img {
+  flex-shrink: 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px var(--border-color), 0 2px 4px var(--border-color);
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+
+  &:hover {
+    box-shadow: 0 7px 14px var(--border-color), 0 7px 14px var(--border-color);
+  }
+}
+
+.book-img img {
+  height: 230px;
+  border-radius: 10px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+  background-image: url('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/legacy-fre-image-placeholder-1642515924.png?crop=1xw:1xh;center,top&resize=640:*');
+  background-position: center;
+  background-size: 24em;
+}
+
+.book-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.book-title {
+  color: var(--body-color);
+  font-weight: 600;
+}
+
+.book-author {
+  color: var(--body-color-light);
+  margin-top: 3px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.book-content {
+  color: var(--body-color-light);
+  border: 1px solid var(--border-color);
+  border-left: 0;
+  border-radius: 0 0.5em 0.5em 0;
+  padding: 1em;
+  padding-right: 14em;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 0.5em;
+}
+
+.rating {
+  border: none;
+  vertical-align: sub;
+  color: var(--actionable-color);
+  border: 1px solid var(--actionable-color);
+  padding: 4px;
+  font-size: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: .3s ease;
+  text-decoration: none;
+  &:hover {
+    background-color: var(--actionable-color);
+    color: var(--body-bg-color);
+    border: 1px solid var(--body-bg-color);
+  }
+}
+
+.book-voters {
+  color: var(--body-color-light);
+  vertical-align: sub;
+  font-size: 13px;
+  margin-left: 7px;
+  white-space: nowrap;
+  margin-top: 7px;
+}
+
+.book-sum {
+  margin-top: 20px;
+  font-size: 14px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.book-see-container {
+  @extend %display;
+}
+
+.book-see {
+  cursor: pointer;
+  margin-top: 25px;
+  text-align: center;
+  background-color: var(--body-bg-color);
+  color: var(--body-color);
+  border: 1px solid var(--body-color);
+  font-weight: 600;
+  padding: 8px;
+  font-size: 14px;
+  width: 8em;
+  border-radius: 4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: .5s ease;
+  text-decoration: none;
+
+  &:hover {
+    background-color: var(--body-color);
+    color: var(--body-bg-color);
+    border: 1px solid var(--body-bg-color);
+
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &.actionable {
+    background-color: var(--actionable-color);
+    color: var(--body-bg-color);
+    border: 1px solid var(--body-bg-color);
+
+    &:hover {
+      background-color: var(--body-bg-color);
+      color: var(--actionable-color);
+      border: 1px solid var(--actionable-color);
+    }
+  }
+}
+
+.main-wrapper {
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  margin-top: 1.5em;
+  overflow: hidden;
+}
+
+.books-of {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.popular-books {
+  flex-grow: 1;
+  padding: 0 30px 50px;
+  overflow-y: auto;
+}
+
+.genre {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.main-menu {
+  @extend %display;
+  white-space: nowrap;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  right: 0;
+  background-color: var(--body-bg-color);
+  z-index: 2;
+  user-select: none;
+}
+
+.book-types {
+  margin-left: auto;
+
+  a {
+    text-decoration: none;
+    color: var(--body-color);
+    font-size: 14px;
+  }
+}
+
+.book-type+.book-type {
+  margin-left: 20px;
+}
+
+.book-type {
+  position: relative;
+  transition: 0.2s;
+
+  &.active,
+  &:hover {
+    color: #bbb;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 2px;
+      bottom: -17px;
+      right: 15px;
+      background-color: var(--actionable-color);
+    }
+  }
+
+  &:nth-child(2):before {
+    right: 12px;
+  }
+
+  &:nth-child(3):before {
+    right: 8px;
+  }
+
+  &:nth-child(4):before {
+    right: 6px;
+  }
+
+  &:nth-child(5):before {
+    right: 20px;
+  }
+}
+
+.week {
+  padding: 0 30px;
+}
+
+.author {
+  @extend %display;
+
+  &+& {
+    margin-top: 20px;
+  }
+
+  &-name {
+    font-size: 14px;
+  }
+
+  &:last-child {
+    margin-bottom: 40px;
+  }
+}
+
+.author-title {
+  padding: 0 0 20px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.author-img {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-right: 16px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.year-book {
+  @extend %display;
+
+  &-img {
+    border-radius: 10px;
+    height: 45px;
+    width: 45px;
+    margin-right: 16px;
+  }
+
+  &-name {
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+
+  &-author {
+    font-size: 13px;
+  }
+
+  &+& {
+    margin-top: 20px;
+  }
+}
+
+.year-book-content {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.book-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  padding-top: 40px;
+  position: relative;
+
+}
+
+.book-card {
+  margin-top: 20px;
+  background-color: var(--body-bg-color);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 0 0 20px 20px;
+  color: var(--body-color-light);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+
+.book-card-img {
+  height: 200px;
+  width: 160px;
+  margin-top: -35px;
+  object-fit: cover;
+  margin-bottom: 20px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+  transition: .3s ease;
+  background-image: url('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/legacy-fre-image-placeholder-1642515924.png?crop=1xw:1xh;center,top&resize=640:*');
+  background-position: center;
+  background-size: 24em;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+
+.card-content {
+  color: var(--body-color);
+  padding: 30px;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  cursor: default;
+}
+
+.book-name {
+  color: var(--body-color);
+  font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.book-by {
+  font-size: 13px;
+  color: var(--body-color-light);
+  margin-top: 4px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.book-rate>label {
+  color: #cccccc;
+}
+
+.rate {
+  display: inline-block;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+.card-vote {
+  color: var(--body-color-light);
+}
+
+.card-sum {
+  color: var(--body-color-light);
+  font-size: 13px;
+  line-height: 1.6em;
+  -webkit-line-clamp: 4;
+  margin-top: 15px;
+}
+
+.content-wrapper {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.like-profile {
+  margin-top: 8px;
+
+  &+& {
+    margin-left: -5px;
+  }
+}
+
+.like-img {
+  border-radius: 50%;
+  width: 28px;
+  object-fit: cover;
+  border: 2px solid var(--body-bg-color);
+}
+
+.like-name {
+  font-size: 13px;
+  margin-left: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  span {
+    font-weight: 600;
+  }
+}
+
+.gallery {
+  display: inline-flex;
+  padding: 24px;
+
+  & .images {
+    width: 50%;
+  }
+
+  & .files {
+    width: 50%;
+  }
+}
+
+.gallery-item {
+  background-image: url('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/legacy-fre-image-placeholder-1642515924.png?crop=1xw:1xh;center,top&resize=640:*');
+  background-position: center;
+  background-size: 24em;
+  width: 250px;
+  height: 250px;
+}
+
+model-viewer {
+  width: 250px !important;
+  height: 250px !important;
+}
+
+.likes {
+  @extend %display;
+  user-select: none;
+}
+
+
+@media (max-width: 1103px) {
+  .starred-project {
+    width: 60%;
+  }
+}
+
+@media (max-width: 765px) {
+  .starred-project {
+    width: 80%;
+  }
+}
+
+@media (max-width: 575px) {
+  .starred-project {
+    width: 100%;
+  }
+}
+
+@media (max-width: 458px) {
+  .book-photo {
+    width: 180px;
+  }
+
+  .book-voters {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .book-see {
+    width: 120px;
+    font-size: 13px;
+  }
+
+  .book-photo {
+    width: 130px;
+  }
+
+  .main-wrapper {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 360px) {
+  .rating>label:before {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 1220px) {
+  .card-vote {
+    display: none;
+  }
+}
+
+@media (max-width: 1085px) {
+  .book-rate>label {
+    font-size: .7em;
+  }
+}
+
+@media (max-width: 1045px) {
+  .books-of {
+    display: none;
+  }
+}
+
+@media (max-width: 725px) {
+
+  .browse-category,
+  .search-bar {
+    display: none;
+  }
+
+  .header-title {
+    margin-right: auto;
+  }
+
+  .book-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .book-types {
+    display: none;
+  }
+}
+
+@media (max-width: 372px) {
+  .card-content {
+    padding: 20px;
+  }
+}

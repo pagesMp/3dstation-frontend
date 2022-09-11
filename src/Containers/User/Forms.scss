@@ -1,0 +1,114 @@
+.container{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-user-select: none;
+    user-select: none;
+}
+.container a{
+    color: var(--body-color);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.container .login-form{
+    display: grid;
+    align-content: center;
+    align-items: center;
+    justify-items: stretch;
+    width: 60%;
+    height: 80%;
+    border-radius: 1rem;
+    padding: 75px;
+
+}
+
+.container .login-form .form-header .msg-error {
+    color: var(--actionable-color);
+    margin-bottom: 1em;
+}
+
+.container .login-form .form-header h1{
+    font-weight: 700px;
+    font-size: 2rem;
+    line-height: 38.73px;
+    color: var(--body-color);
+}
+
+.container .login-form .form-control{
+    width: 100%;
+}
+.container .login-form .form-control label{
+    display: block;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 17px;
+    color: var(--body-color);
+    margin-bottom: 8px;
+}
+.container .login-form .form-control input{
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 360px;
+    height: 24px;
+    color: var(--body-color-light);
+    margin-right: 1rem;
+    margin-bottom: 2rem;
+}
+
+
+.container .login-form .form-control div.checkbox-group {
+    display: flex;
+}
+
+.container .login-form .form-control label.checkbox{
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--body-color);
+    margin-top: 4px;
+    margin-left: 8px;
+}
+
+.container .login-form .form-control input[type="checkbox"]{
+    color: var(--body-color-light);
+    height: 24px;
+    width: 24px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 24px;
+}
+
+.container .login-form .form-control i{
+   color: var(--body-color-light);
+   opacity: 0.6;
+    font-size: 20px;
+}
+.container .login-form .form-footer{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+.container .login-form .form-footer a{
+    text-decoration: none;
+    padding: 1rem;
+    background: var(--actionable-color);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #f6f6f6;
+    margin-right: 43px;
+}
+
+.container .login-form .form-footer .information{
+    display: flex;
+    align-items: center;
+}
+.container .login-form .form-footer .information p{
+    margin-left: 8px;
+}
