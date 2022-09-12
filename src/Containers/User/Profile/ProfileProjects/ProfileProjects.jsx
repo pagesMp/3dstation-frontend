@@ -3,6 +3,7 @@ import axios from 'axios';
 import ArtistNameView from '../../../All/ArtistName/ArtistName';
 
 export default class ProfileProjectsView extends Component {
+  //inicializamos las propiedades del componente
   constructor(props) {
     super(props);
     this.state = {
@@ -11,11 +12,14 @@ export default class ProfileProjectsView extends Component {
   }
 
   render() {
-
+    //obtenemos la cache del local storage
     const userCache = localStorage.getItem('user')
+    //si existe la cache, la parseamos y cogemos el user, si no, lo ponemos en undefined
     const user = userCache ? JSON.parse(userCache).user : undefined;
+   //si existe la cache, la parseamos y cogemos el token, si no, lo ponemos en undefined
     const token = userCache ? JSON.parse(userCache).token : undefined;
 
+    //añadimos likes a los proyectos por id
     const addLike = async (projectId) => {
       try {
         await axios.post("https://dimension3-backend.herokuapp.com/api/project/" + projectId + "/likes/add", {}, {
@@ -32,6 +36,7 @@ export default class ProfileProjectsView extends Component {
       }
     }
 
+    // eliminamos los proyectos por id
     const deleteProject = async (projectId) => {
       try {
         await axios.delete("https://dimension3-backend.herokuapp.com/api/project/delete/" + projectId, {
@@ -48,6 +53,7 @@ export default class ProfileProjectsView extends Component {
       }
     }
 
+    //obtenemos todos los proyectos de un usuario
     const getProjectsById = async (userId) => {
       try {
         const projects = await axios.get("https://dimension3-backend.herokuapp.com/api/public/user/" + userId + "/projects/get/all");
@@ -58,15 +64,20 @@ export default class ProfileProjectsView extends Component {
       }
     }
 
+    //si es nuestro perfil, cojemos el id de la variable user si no lo cojemos del parametro profile id
     const settings = {
       profileId: this.props.profileId === "me" ? user.id : this.props.profileId
     };
 
+    //creamos el elemento en html a partir de la llamada a la api
     const renderProjectCards = () => {
       let projectCards = [];
+      //si se han devuelto los proyectos
       if (this.state.projects) {
+         //creamos un elemento proyerctos
         for (let i = 0; i <= this.state.projects.length; i++) {
           let project = this.state.projects[i];
+          //si se han devuelto los proyectos
           if (project) {
             projectCards.push(
               <div className="book-card" key={project.id}>
@@ -85,6 +96,7 @@ export default class ProfileProjectsView extends Component {
                     <ArtistNameView profileId={project.user_id}></ArtistNameView>
                     <div className="rate">
                       {
+                        //si el usuario existe puede añadir un me gusta
                         user ?
                           <a className="rating book-rate" onClick={() => addLike(project.id)}>Me gusta ❤</a>
                           :
@@ -98,6 +110,7 @@ export default class ProfileProjectsView extends Component {
                     </div>
 
                     {
+                      //si el usuario esta loggeado y esta en su perfil, puede eliminar sus proyectos 
                       user && user.id == settings.profileId ?
                         <a style={{ textDecoration: "none" }} onClick={() => deleteProject(project.id)}><div className="book-see actionable" style={{ height: "1em", width: "5em", marginTop: "10px" }}>Eliminar</div></a>
                         :
@@ -118,7 +131,7 @@ export default class ProfileProjectsView extends Component {
           }
         }
       }
-
+      //si no se han obtenido proyectos hacemos la llamada a la api
       else {
         const getProjects = getProjectsById(settings.profileId);
         getProjects.then(result => {

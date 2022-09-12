@@ -8,10 +8,14 @@ import '../../Forms.scss';
 
 const UploadProject = () => {
 
-    const userCache = localStorage.getItem('user')
+    //obtenemos la cache del local storage
+    const userCache = localStorage.getItem('user');
+    //si existe la cache, la parseamos y cogemos el user, si no, lo ponemos en undefined
     const user = userCache ? JSON.parse(userCache).user : undefined;
-    const token = userCache ? JSON.parse(localStorage.getItem('user')).token : undefined;
+    //si existe la cache, la parseamos y cogemos el token, si no, lo ponemos en undefined
+    const token = userCache ? JSON.parse(userCache).token : undefined;
 
+    //HOOK con los datos a rellenar
     const [projectData, setProjectData] = useState({
         title: '',
         description: '',
@@ -24,15 +28,16 @@ const UploadProject = () => {
     const [msgError, setMsgError] = useState('');
 
     let navigate = useNavigate();
-
+    //HANDLERS  
     const updateProjectData = (e) => {
         setProjectData({ ...projectData, [e.target.name]: e.target.value })
     }
 
+    //Creamos por primera vez el componente con este useEffect.
     useEffect(() => {
 
     }, [])
-
+    //Con este useEffect, cada vez que se modifica algo, se actualiza.
     useEffect(() => {
 
     })
@@ -40,6 +45,7 @@ const UploadProject = () => {
     const Create = async () => {
 
         try {
+            //Primero, comprobación de campos vacío
             let datos = ['title', 'description', 'tags', 'images', 'files'];
             let datosToArrays = ['tags', 'images', 'files'];
 
@@ -48,20 +54,26 @@ const UploadProject = () => {
                     setMsgError(`${[field]} no puede estar vacío.`);
                     return;
                 }
+                //comprobamos que el campo este en el array de datosToArrays
                 if (datosToArrays.includes(field)) {
+                    //eliminamos los espacios en blanco con el replace
                     let newProjectData = projectData[field].replace(/\s+/g, '');
+                    //creamos un array vacio
                     var newProjectDataArray = [];
+                    //comprobamos si hay comas en el array y separamos los elementos por comas
                     if (newProjectData.indexOf(',') > -1) { 
                         newProjectDataArray = newProjectData.split(',') ;
                     }
+                    //si no hay comas metemos el elemento en una array
                     else {
                         newProjectDataArray = [newProjectData];
                     }
+                    //metemos el resultado en el array de projectData
                     projectData[field] = newProjectDataArray;
                 }
             }
 
-
+            //creamos un proyecto
             let uploadProject = await axios.post("https://dimension3-backend.herokuapp.com/api/project/create", projectData, {
                 headers: {
                     'Authorization': 'Bearer ' + token
@@ -82,7 +94,7 @@ const UploadProject = () => {
             console.error("Ha ocurrido un error al crear el proyecto.", error)
         }
     }
-
+    
     if (created === true) {
         return (
             null

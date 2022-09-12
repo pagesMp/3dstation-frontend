@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import axios from 'axios';
 import Slider from "react-slick";
 import ArtistNameView from '../../../All/ArtistName/ArtistName';
-// import ModelViewerElement from "@google/model-viewer";
-
 
 export default class FullscreenProjectView extends Component {
     constructor(props) {
@@ -15,10 +13,14 @@ export default class FullscreenProjectView extends Component {
 
     render() {
 
+        //obtenemos la cache del local storage 
         const userCache = localStorage.getItem('user')
+        //si existe la cache, la parseamos y cogemos el user, si no, lo ponemos en undefined
         const user = userCache ? JSON.parse(userCache).user : undefined;
+        //si existe la cache, la parseamos y cogemos el token, si no, lo ponemos en undefined
         const token = userCache ? JSON.parse(userCache).token : undefined;
 
+        //añadimos una visita al proyecto por id
         const addView = async (projectId) => {
             try {
                 await axios.get("https://dimension3-backend.herokuapp.com/api/public/project/" + projectId + "/add/view");
@@ -28,7 +30,7 @@ export default class FullscreenProjectView extends Component {
                 return false;
             }
         }
-
+        //añadimos un like al proyecto por id
         const addLike = async (projectId) => {
             try {
                 await axios.post("https://dimension3-backend.herokuapp.com/api/project/" + projectId + "/likes/add", {}, {
@@ -45,6 +47,7 @@ export default class FullscreenProjectView extends Component {
             }
         }
 
+        //obtenemos un proyecto por id
         const getProject = async (projectId) => {
             try {
                 const project = await axios.get("https://dimension3-backend.herokuapp.com/api/public/project/get/" + projectId);
@@ -56,10 +59,12 @@ export default class FullscreenProjectView extends Component {
             }
         }
 
+        //definimos la propiedad proyecto id
         const settings = {
             projectId: this.props.projectId
         };
 
+        //configuración del carousel
         const sliderSettings = {
             infinite: false,
             rows: 2,
@@ -67,31 +72,36 @@ export default class FullscreenProjectView extends Component {
             slidesToShow: 2
         };
 
+        //llamamos la funcion añadir visita al proyecto
         addView(settings.projectId);
 
+        //creamos la galeria, donde type es una imagen o ficheros3D
         const renderGallery = (type, projectImages) => {
             let gallery = [];
             for (let i = 0; i < projectImages.length; i++) {
+                //si es imagen, creamos un elemento img
                 if (type === "images") {
                     gallery.push(
                         <img key={i} src={projectImages[i]} alt="" className="gallery-item" draggable={false}></img>
                     );
                 }
+                // si es un fichero3D, creamos un iframe
                 else if (type === "files") {
                     gallery.push(
                         <div class="sketchfab-embed-wrapper">
                             <iframe frameborder={"0"} allowfullscreen mozallowfullscreen={"true"} webkitallowfullscreen={"true"} allow={"autoplay; fullscreen; xr-spatial-tracking"} xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share width={"250"} height={"250"} src={projectImages[i]}>
                             </iframe>
                         </div>
-                        // <model-viewer src={projectImages[i]} poster={"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/legacy-fre-image-placeholder-1642515924.png?crop=1xw:1xh;center,top&resize=640:*"} ar-modes={"webxr scene-viewer quick-look"} shadow-intensity={"1"} camera-controls touch-action={"pan-y"}></model-viewer>
                     );
                 }
             }
             return gallery;
         };
 
+        //creamos el elemento en html a partir de la llamada a la api
         const renderProjectScreen = () => {
             let projectCard = [];
+            //si el perfil esta obtenido
             if (this.state.project) {
                 projectCard.push(
                     <div className="book-card" key={this.state.project.id} style={{ width: '100%', height: '100%', cursor: 'auto', marginTop: '4em' }}>
@@ -109,6 +119,7 @@ export default class FullscreenProjectView extends Component {
                                 </ArtistNameView>
                                 <div className="rate">
                                     {
+                                        //si el usuario esta loggeado mostramos el boton de addLike
                                         user ?
                                             <a className="rating book-rate" onClick={() => addLike(this.state.project.id)}>Me gusta ❤</a>
                                             :
@@ -148,6 +159,7 @@ export default class FullscreenProjectView extends Component {
                 );
             }
 
+            //si el proyecto no existe mostramos un error
             else if (this.state.project === false) {
                 projectCard.push(
                     <div key={settings.projectId}>
@@ -156,12 +168,15 @@ export default class FullscreenProjectView extends Component {
                 );
             }
 
+             //si no hay proyectos, llamamos a la api
             else {
                 const getProjectData = getProject(settings.projectId);
                 getProjectData.then(result => {
+                    //si el resultado no es false, los recupera
                     if (result !== false) {
                         this.setState({ project: result.data.data });
                     }
+                    // si no, le pasamos result que equivale a false
                     else {
                         this.setState({ project: result });
                     }
