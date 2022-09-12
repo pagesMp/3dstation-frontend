@@ -58,3 +58,9 @@ En esta vista se pueden encontrar proyectos cuyo título coincida con la búsque
 En esta vista se pueden encontrar ofertas de empleo publicadas así como mostrar interés por las mismas.
 
 ![jobs](img/)
+
+# Referencias
+
+Inspiración diseño: https://codepen.io/TurkAysenur/pen/JjGKKrP
+
+Carousel: https://github.com/kenwheeler/slick

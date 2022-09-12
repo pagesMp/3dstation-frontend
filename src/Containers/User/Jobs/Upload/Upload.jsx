@@ -8,10 +8,14 @@ import '../../Forms.scss';
 
 const UploadJobOffer = () => {
 
-    const userCache = localStorage.getItem('user')
+    //obtenemos la cache del local storage
+    const userCache = localStorage.getItem('user');
+    //si existe la cache, la parseamos y cogemos el user, si no, lo ponemos en undefined
     const user = userCache ? JSON.parse(userCache).user : undefined;
-    const token = userCache ? JSON.parse(localStorage.getItem('user')).token : undefined;
+    //si existe la cache, la parseamos y cogemos el token, si no, lo ponemos en undefined
+    const token = userCache ? JSON.parse(userCache).token : undefined;
 
+    //HOOK con los datos a rellenar
     const [jobData, setJobData] = useState({
         title: '',
         description: ''
@@ -22,14 +26,17 @@ const UploadJobOffer = () => {
 
     let navigate = useNavigate();
 
+    //HANDLERS 
     const updateJobData = (e) => {
         setJobData({ ...jobData, [e.target.name]: e.target.value })
     }
 
+    //Creamos por primera vez el componente con este useEffect.
     useEffect(() => {
 
     }, [])
 
+    //Con este useEffect, cada vez que se modifica algo, se actualiza.
     useEffect(() => {
 
     })
@@ -37,6 +44,8 @@ const UploadJobOffer = () => {
     const Create = async () => {
 
         try {
+            
+            //Primero, comprobación de campos vacíos
             let datos = ['title', 'description'];
 
             for (let field of datos) {

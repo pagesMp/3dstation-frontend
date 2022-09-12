@@ -6,11 +6,13 @@ import JobOffersView from './JobOffers/JobOffers';
 
 const Jobs = () => {
 
-    const userCache = localStorage.getItem('user')
+    //obtenemos la cache del local storage
+    const userCache = localStorage.getItem('user');
+    //si existe la cache, la parseamos y cogemos el user, si no, lo ponemos en undefined
     const user = userCache ? JSON.parse(userCache).user : undefined;
 
     let navigate = useNavigate();
-
+    //si el user no esta , lo redirigimos al login
     useEffect(() => {
         if (!user) {
             navigate('/login');

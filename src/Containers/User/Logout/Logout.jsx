@@ -7,6 +7,7 @@ const Logout = () => {
     // variables
     let navigate = useNavigate();
 
+    //eliminamos el localstorage y redirigimos al login
     useEffect(() => {
        localStorage.clear();
        navigate('/login');    

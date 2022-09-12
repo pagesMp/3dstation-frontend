@@ -46,7 +46,7 @@ export default class ArtistNameView extends Component {
             }
             else {
                 //si el usuario esta loggeado y su id es igual al id solicitado
-                if (user && user.id === settings.profileId) {
+                if (user && user.id == settings.profileId) {
                     this.setState({ profile: user });
                 }
                 //si el id solicitado esta en la cache
