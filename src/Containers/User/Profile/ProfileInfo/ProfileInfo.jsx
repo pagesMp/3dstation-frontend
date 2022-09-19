@@ -46,21 +46,7 @@ export default class ProfileInfoView extends Component {
       }
     }
 
-    const deleteUserAdmin = async (projectId) => {
-      try {
-        await axios.delete("https://dimension3-backend.herokuapp.com/api/admin/user/delete/" + projectId, {
-          headers: {
-            'Authorization': 'Bearer ' + token
-          }
-        });
-        alert("Has eliminado el proyecto.")
-        return true;
-      }
-      catch (error) {
-        alert("Ya has eliminado este proyecto o ha ocurrido un error al hacerlo.")
-        return false;
-      }
-    }
+    
 
     //si es nuestro perfil, cojemos el id de la variable user si no lo cojemos del parametro profile id
     const settings = {
@@ -70,7 +56,8 @@ export default class ProfileInfoView extends Component {
     //necesitamos dos funciones de la vista profile que usan HOOkS por lo que los pasamos como parametro
     const callbacks = {
       updateProfile: this.props.updateProfileCallback,
-      updateUserData: this.props.updateUserDataCallback
+      updateUserData: this.props.updateUserDataCallback,
+      deleteUserAdmin: this.props.deleteUserAdminCallback
     }
 
     //creamos el elemento en html a partir de la llamada a la api
@@ -118,9 +105,9 @@ export default class ProfileInfoView extends Component {
             }
 
             {
-              //si el usuario esta loggeado y su id es igual al id solicitado mostramos el boton de editar
-              user && user.admin == true ?
-                <a className="book-see" style={{ marginLeft: "2em" }} onClick={() => deleteUserAdmin(settings.profileId)}>Eliminar</a>
+              //si el usuario es administrador podra eliminar cualquier perfil menos el suyo
+              user && user.admin == true && user.id != settings.profileId ?
+                <a className="book-see" style={{ marginLeft: "2em" }} onClick={() => callbacks.deleteUserAdmin(settings.profileId)}>Eliminar</a>
                 :
                 null
             }

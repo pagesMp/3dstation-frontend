@@ -55,6 +55,24 @@ const Profile = () => {
         }
     }
 
+    const deleteUserAdmin = async (projectId) => {
+        try {
+          await axios.delete("https://dimension3-backend.herokuapp.com/api/admin/user/delete/" + projectId, {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          });
+          alert("Has eliminado el usuario.")
+          localStorage.removeItem('user');
+          navigate('/login');
+          return true;
+        }
+        catch (error) {
+          alert("Ya has eliminado este usuario o ha ocurrido un error al hacerlo.")
+          return false;
+        }
+      }
+
     useEffect(() => {
         if (!user) {
             navigate('/login');
@@ -72,7 +90,7 @@ const Profile = () => {
                         <div className="books-of">
 
                             {/* Profile Info View */}
-                            <ProfileInfoView profileId={profileId === "profile" ? "me" : profileId} updateProfileCallback={updateUserProfile} updateUserDataCallback={updateUserDades}>
+                            <ProfileInfoView profileId={profileId === "profile" ? "me" : profileId} updateProfileCallback={updateUserProfile} updateUserDataCallback={updateUserDades} deleteUserAdminCallback={deleteUserAdmin}>
                             </ProfileInfoView>
 
                         </div>
