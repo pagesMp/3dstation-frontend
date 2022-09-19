@@ -25,6 +25,11 @@ Es necesario iniciar sesión para realizar determinadas acciones, como dar me gu
 
 Los usuarios pueden subir proyectos, mientras que las empresas pueden publicar ofertas de empleo.
 
+Admin:
+
+. **email** : superadmin@3dweb.com \
+. **password** : 123456!
+
 Usuario:
 
 . **email** : marc@gmail.com \
