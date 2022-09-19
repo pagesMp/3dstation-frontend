@@ -16,7 +16,7 @@ export default class ProfileProjectsView extends Component {
     const userCache = localStorage.getItem('user')
     //si existe la cache, la parseamos y cogemos el user, si no, lo ponemos en undefined
     const user = userCache ? JSON.parse(userCache).user : undefined;
-   //si existe la cache, la parseamos y cogemos el token, si no, lo ponemos en undefined
+    //si existe la cache, la parseamos y cogemos el token, si no, lo ponemos en undefined
     const token = userCache ? JSON.parse(userCache).token : undefined;
 
     //añadimos likes a los proyectos por id
@@ -53,6 +53,22 @@ export default class ProfileProjectsView extends Component {
       }
     }
 
+    const deleteProjectAdmin = async (projectId) => {
+      try {
+        await axios.delete("https://dimension3-backend.herokuapp.com/api/admin/project/delete/" + projectId, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        alert("Has eliminado el proyecto.")
+        return true;
+      }
+      catch (error) {
+        alert("Ya has eliminado este proyecto o ha ocurrido un error al hacerlo.")
+        return false;
+      }
+    }
+
     //obtenemos todos los proyectos de un usuario
     const getProjectsById = async (userId) => {
       try {
@@ -74,7 +90,7 @@ export default class ProfileProjectsView extends Component {
       let projectCards = [];
       //si se han devuelto los proyectos
       if (this.state.projects) {
-         //creamos un elemento proyerctos
+        //creamos un elemento proyerctos
         for (let i = 0; i <= this.state.projects.length; i++) {
           let project = this.state.projects[i];
           //si se han devuelto los proyectos
@@ -111,8 +127,16 @@ export default class ProfileProjectsView extends Component {
 
                     {
                       //si el usuario esta loggeado y esta en su perfil, puede eliminar sus proyectos 
-                      user && user.id == settings.profileId ?
+                      user && user.id == settings.profileId && user.admin == false ? 
                         <a style={{ textDecoration: "none" }} onClick={() => deleteProject(project.id)}><div className="book-see actionable" style={{ height: "1em", width: "5em", marginTop: "10px" }}>Eliminar</div></a>
+                        :
+                        null
+                    }
+
+                    {
+                      //si el user esta loggeado y es admin puede eliminar projects
+                      user && user.admin == true ?
+                        <a style={{ textDecoration: "none" }} onClick={() => deleteProjectAdmin(project.id)}><div className="book-see actionable" style={{ height: "1em", width: "5em", marginTop: "10px" }}>Eliminar</div></a>
                         :
                         null
                     }

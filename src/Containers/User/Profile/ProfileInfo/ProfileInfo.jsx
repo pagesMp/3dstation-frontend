@@ -34,14 +34,30 @@ export default class ProfileInfoView extends Component {
         alert("Ya has seguido a este usuario o ha ocurrido un error al hacerlo.")
         return false;
       }
-     }
-     // obtenemos el perfil ajeno por id
+    }
+    // obtenemos el perfil ajeno por id
     const getUserProfile = async (userId) => {
       try {
         const profile = await axios.get("https://dimension3-backend.herokuapp.com/api/public/profile/" + userId);
         return profile;
       }
       catch (error) {
+        return false;
+      }
+    }
+
+    const deleteUserAdmin = async (projectId) => {
+      try {
+        await axios.delete("https://dimension3-backend.herokuapp.com/api/admin/user/delete/" + projectId, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        alert("Has eliminado el proyecto.")
+        return true;
+      }
+      catch (error) {
+        alert("Ya has eliminado este proyecto o ha ocurrido un error al hacerlo.")
         return false;
       }
     }
@@ -99,6 +115,14 @@ export default class ProfileInfoView extends Component {
                 :
                 //si no es el usuario loggeado mostramos el boton de seguir
                 <a className="book-see" style={{ marginLeft: "2em" }} onClick={() => addFollow(settings.profileId)}>Seguir</a>
+            }
+
+            {
+              //si el usuario esta loggeado y su id es igual al id solicitado mostramos el boton de editar
+              user && user.admin == true ?
+                <a className="book-see" style={{ marginLeft: "2em" }} onClick={() => deleteUserAdmin(settings.profileId)}>Eliminar</a>
+                :
+                null
             }
           </div>
         );
